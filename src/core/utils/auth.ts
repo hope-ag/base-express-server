@@ -11,14 +11,16 @@ export const createToken = (
   user: User,
   type: 'access' | 'refresh'
 ): TokenData => {
-  const dataStoredInToken: DataStoredInToken = { _id: user._id };
+  const dataStoredInToken: DataStoredInToken = {
+    _id: user._id,
+    role: user.role
+  };
   const secretKey: string =
     type === 'refresh' ? REFRESH_SECRET_KEY : ACCESS_SECRET_KEY;
   //if access token is created, it will be valid for 10 minutes
   //if refresh token is created, it will be valid for 7 days
   const expiresIn: number | string =
     type === 'access' ? '15 minutes' : '7 days';
-
   return {
     expiresIn,
     token: sign(dataStoredInToken, secretKey, {
@@ -39,5 +41,5 @@ export const extractTokenData = (
 };
 
 export const createCookie = (tokenData: TokenData): string => {
-  return `Refresh=${tokenData.token}; HttpOnly; Max-Age=${tokenData.expiresIn};`;
+  return `Refresh=${tokenData.token}; HttpOnly; Max-Age=${60 * 60 * 24 * 7};`;
 };

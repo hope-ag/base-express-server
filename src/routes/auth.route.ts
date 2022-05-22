@@ -27,11 +27,15 @@ class AuthRoute implements Routes {
       this.authController.logIn
     );
     //check for refresh token in cookie
-    this.router.post(`${this.path}refresh`, this.authController.refreshToken);
+    this.router.post(
+      `${this.path}refresh`,
+      authMiddleware('refresh'),
+      this.authController.refreshToken
+    );
 
     this.router.post(
       `${this.path}logout`,
-      authMiddleware,
+      authMiddleware('refresh'),
       this.authController.logOut
     );
   }

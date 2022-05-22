@@ -1,43 +1,42 @@
-import { NextFunction, Response } from 'express';
-import { verify } from 'jsonwebtoken';
-import { REFRESH_SECRET_KEY } from '@config';
-import { HttpException } from '@core/exceptions/HttpException';
-import { DataStoredInToken, RequestWithUser } from '@interfaces/auth.interface';
+import { NextFunction, RequestHandler, Response } from 'express';
+import { Unauthorized } from 'http-errors';
+import { RequestWithUser } from '@interfaces/auth.interface';
 import userModel from '@/models/users';
+import { extractTokenData } from '@/core/utils/auth';
 
-const authMiddleware = async (
-  req: RequestWithUser,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const Authorization =
-      req.cookies['Authorization'] ||
-      (req.header('Authorization')
-        ? req.header('Authorization').split('Bearer ')[1]
-        : null);
+/**
+ *@param { type } type of token. access or refresh
+ */
 
-    if (Authorization) {
-      const secretKey: string = REFRESH_SECRET_KEY;
-      const verificationResponse = (await verify(
-        Authorization,
-        secretKey
-      )) as DataStoredInToken;
-      const userId = verificationResponse._id;
-      const findUser = await userModel.findById(userId);
-
-      if (findUser) {
-        req.user = findUser;
-        next();
-      } else {
-        next(new HttpException(401, 'Wrong authentication token'));
+const authMiddleware = (type: 'access' | 'refresh'): RequestHandler => {
+  return async (req: RequestWithUser, res: Response, next: NextFunction) => {
+    try {
+      let Authorization: string | null = null;
+      if (type === 'access') {
+        Authorization = req.header('Authorization').split('Bearer ')[1];
       }
-    } else {
-      next(new HttpException(404, 'Authentication token missing'));
+      if (type === 'refresh') {
+        Authorization = req.cookies['Refresh'];
+      }
+
+      if (Authorization) {
+        const verificationResponse = extractTokenData(Authorization, type);
+        const userId = verificationResponse._id;
+        const foundUser = await userModel.findById(userId);
+
+        if (foundUser) {
+          req.user = foundUser;
+          next();
+        } else {
+          next(new Unauthorized(`invalid ${type} token`));
+        }
+      } else {
+        next(new Unauthorized(`${type} token missing`));
+      }
+    } catch (error) {
+      next(new Unauthorized(`${type} token missing`));
     }
-  } catch (error) {
-    next(new HttpException(401, 'Wrong authentication token'));
-  }
+  };
 };
 
 export default authMiddleware;

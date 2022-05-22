@@ -90,8 +90,7 @@ class AuthService {
     });
     if (!foundUser) throw new Conflict('Account does not exist');
 
-    //remove token from db on meta.refreshToken
-    this.users.updateOne({ _id: foundUser._id }, { 'meta.refreshToken': '' });
+    this.users.findByIdAndUpdate(foundUser._id, { 'meta.refreshToken': '' });
 
     return foundUser;
   }

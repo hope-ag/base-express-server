@@ -61,10 +61,13 @@ class AuthController {
   ) => {
     try {
       const userData: User = req.user;
-      const logOutUserData: User = await this.authService.logout(userData);
-
-      res.setHeader('Set-Cookie', ['Authorization=; Max-age=0']);
-      res.status(200).json({ data: logOutUserData, message: 'logout' });
+      await this.authService.logout(userData);
+      res.setHeader('Set-Cookie', ['Refresh=; Max-age=0; httpOnly;']);
+      const response = {
+        message: 'Logged out successfully',
+        accessToken: ''
+      };
+      sendSuccessResponse(res, response, 200);
     } catch (error) {
       next(error);
     }
