@@ -12,7 +12,7 @@ import { NODE_ENV, PORT, LOG_FORMAT, ORIGIN, CREDENTIALS } from '@config';
 import { dbConnection } from '@databases';
 import { Routes } from '@interfaces/routes.interface';
 import errorMiddleware from '@middlewares/error.middleware';
-import { logger, stream } from '@utils/logger';
+import { logger, stream } from '@core/utils/logger';
 
 class App {
   public app: express.Application;
@@ -75,10 +75,10 @@ class App {
         info: {
           title: 'REST API',
           version: '1.0.0',
-          description: 'Example docs',
-        },
+          description: 'Example docs'
+        }
       },
-      apis: ['swagger.yaml'],
+      apis: ['swagger.yaml']
     };
 
     const specs = swaggerJSDoc(options);

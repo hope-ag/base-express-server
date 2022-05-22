@@ -1,63 +1,99 @@
 import { hash, compare } from 'bcrypt';
-import { sign } from 'jsonwebtoken';
-import { SECRET_KEY } from '@config';
 import { CreateUserDto } from '@dtos/users.dto';
-import { HttpException } from '@exceptions/HttpException';
-import { DataStoredInToken, TokenData } from '@interfaces/auth.interface';
+import { BadRequest, Conflict, Unauthorized } from 'http-errors';
 import { User } from '@interfaces/users.interface';
-import userModel from '@models/users.model';
-import { isEmpty } from '@utils/util';
+import userModel from '@/models/users';
+import { isEmpty } from '@core/utils/util';
+import { createCookie, createToken, extractTokenData } from '@/core/utils/auth';
 
 class AuthService {
   public users = userModel;
 
   public async signup(userData: CreateUserDto): Promise<User> {
-    if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
+    if (isEmpty(userData)) throw new BadRequest('User data must not be empty');
 
-    const findUser: User = await this.users.findOne({ email: userData.email });
-    if (findUser) throw new HttpException(409, `You're email ${userData.email} already exists`);
+    const foundUser: User = await this.users.findOne({ email: userData.email });
+    if (foundUser) throw new Conflict(`Account with this email already exists`);
 
     const hashedPassword = await hash(userData.password, 10);
-    const createUserData: User = await this.users.create({ ...userData, password: hashedPassword });
+    const createUserData: User = await this.users.create({
+      ...userData,
+      password: hashedPassword
+    });
 
     return createUserData;
   }
 
-  public async login(userData: CreateUserDto): Promise<{ cookie: string; findUser: User }> {
-    if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
+  public async login(userData: CreateUserDto): Promise<{
+    cookie: string;
+    data: {
+      accessToken: string;
+      user: User;
+    };
+  }> {
+    if (isEmpty(userData))
+      throw new BadRequest('Please provide login credentials');
 
-    const findUser: User = await this.users.findOne({ email: userData.email });
-    if (!findUser) throw new HttpException(409, `You're email ${userData.email} not found`);
+    const foundUser = (
+      await this.users.findOne({ email: userData.email })
+    ).toJSON();
+    if (!foundUser)
+      throw new Unauthorized('Account with this email does not exist');
 
-    const isPasswordMatching: boolean = await compare(userData.password, findUser.password);
-    if (!isPasswordMatching) throw new HttpException(409, "You're password not matching");
+    const isPasswordMatching: boolean = await compare(
+      userData.password,
+      foundUser.password
+    );
+    if (!isPasswordMatching)
+      throw new Conflict('Email or password is incorrect');
 
-    const tokenData = this.createToken(findUser);
-    const cookie = this.createCookie(tokenData);
+    const refreshToken = createToken(foundUser, 'refresh');
+    const accessToken = createToken(foundUser, 'access');
+    const cookie = createCookie(refreshToken);
 
-    return { cookie, findUser };
+    //store token in db on meta.refreshToken
+    await this.users.findByIdAndUpdate(foundUser._id, {
+      'meta.refreshToken': refreshToken.token
+    });
+
+    return {
+      cookie,
+      data: {
+        accessToken: accessToken.token,
+        user: { ...foundUser, meta: undefined, password: undefined }
+      }
+    };
+  }
+
+  public async refreshToken(
+    token: string
+  ): Promise<{ accessToken: string; foundUser: User }> {
+    if (isEmpty(token)) throw new Unauthorized('Token must not be empty');
+    //extract userId from token
+    const { _id } = extractTokenData(token, 'refresh');
+    if (isEmpty(_id)) throw new Unauthorized('Invalid token');
+    const foundUser = (await this.users.findById(_id, '-password')).toJSON();
+    if (!foundUser) throw new Unauthorized('User does not exist');
+    if (foundUser.meta.refreshToken !== token)
+      throw new Unauthorized('Invalid token');
+    const newAccessToken = createToken(foundUser, 'access');
+    const sanitizedData = { ...foundUser, meta: undefined };
+    return { accessToken: newAccessToken.token, foundUser: sanitizedData };
   }
 
   public async logout(userData: User): Promise<User> {
-    if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
+    if (isEmpty(userData)) throw new BadRequest('User data must not be empty');
 
-    const findUser: User = await this.users.findOne({ email: userData.email, password: userData.password });
-    if (!findUser) throw new HttpException(409, `You're email ${userData.email} not found`);
+    const foundUser: User = await this.users.findOne({
+      email: userData.email,
+      password: userData.password
+    });
+    if (!foundUser) throw new Conflict('Account does not exist');
 
-    return findUser;
-  }
+    //remove token from db on meta.refreshToken
+    this.users.updateOne({ _id: foundUser._id }, { 'meta.refreshToken': '' });
 
-  public createToken(user: User): TokenData {
-    const dataStoredInToken: DataStoredInToken = { _id: user._id };
-    const secretKey: string = SECRET_KEY;
-    const expiresIn: number = 60 * 60;
-
-    return { expiresIn, token: sign(dataStoredInToken, secretKey, { expiresIn }) };
-  }
-
-  public createCookie(tokenData: TokenData): string {
-    return `Authorization=${tokenData.token}; HttpOnly; Max-Age=${tokenData.expiresIn};`;
+    return foundUser;
   }
 }
-
 export default AuthService;

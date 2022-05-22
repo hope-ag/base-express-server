@@ -1,9 +1,9 @@
 import { hash } from 'bcrypt';
 import { CreateUserDto } from '@dtos/users.dto';
-import { HttpException } from '@exceptions/HttpException';
+import { HttpException } from '@core/exceptions/HttpException';
 import { User } from '@interfaces/users.interface';
-import userModel from '@models/users.model';
-import { isEmpty } from '@utils/util';
+import userModel from '@/models/users';
+import { isEmpty } from '@core/utils/util';
 
 class UserService {
   public users = userModel;
@@ -26,20 +26,36 @@ class UserService {
     if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
 
     const findUser: User = await this.users.findOne({ email: userData.email });
-    if (findUser) throw new HttpException(409, `You're email ${userData.email} already exists`);
+    if (findUser)
+      throw new HttpException(
+        409,
+        `You're email ${userData.email} already exists`
+      );
 
     const hashedPassword = await hash(userData.password, 10);
-    const createUserData: User = await this.users.create({ ...userData, password: hashedPassword });
+    const createUserData: User = await this.users.create({
+      ...userData,
+      password: hashedPassword
+    });
 
     return createUserData;
   }
 
-  public async updateUser(userId: string, userData: CreateUserDto): Promise<User> {
+  public async updateUser(
+    userId: string,
+    userData: CreateUserDto
+  ): Promise<User> {
     if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
 
     if (userData.email) {
-      const findUser: User = await this.users.findOne({ email: userData.email });
-      if (findUser && findUser._id != userId) throw new HttpException(409, `You're email ${userData.email} already exists`);
+      const findUser: User = await this.users.findOne({
+        email: userData.email
+      });
+      if (findUser && findUser._id != userId)
+        throw new HttpException(
+          409,
+          `You're email ${userData.email} already exists`
+        );
     }
 
     if (userData.password) {
@@ -47,7 +63,9 @@ class UserService {
       userData = { ...userData, password: hashedPassword };
     }
 
-    const updateUserById: User = await this.users.findByIdAndUpdate(userId, { userData });
+    const updateUserById: User = await this.users.findByIdAndUpdate(userId, {
+      userData
+    });
     if (!updateUserById) throw new HttpException(409, "You're not user");
 
     return updateUserById;
