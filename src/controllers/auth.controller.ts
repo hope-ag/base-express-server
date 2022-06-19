@@ -13,7 +13,7 @@ class AuthController {
     try {
       const userData: CreateUserDto = req.body;
       await this.authService.signup(userData);
-      sendSuccessResponse(res, 'accountCreated', 201);
+      sendSuccessResponse(req, res, 'created', 201);
     } catch (error) {
       next(error);
     }
@@ -25,7 +25,7 @@ class AuthController {
       const { cookie, data } = await this.authService.login(userData);
 
       res.setHeader('Set-Cookie', [cookie]);
-      sendSuccessResponse(res, data, 200);
+      sendSuccessResponse(req, res, data, 200);
     } catch (error) {
       next(error);
     }
@@ -39,7 +39,7 @@ class AuthController {
         accessToken,
         user: omit(foundUser, ['password', 'meta'])
       };
-      sendSuccessResponse(res, response, 200);
+      sendSuccessResponse(req, res, response, 200);
     } catch (error) {
       next(error);
     }
@@ -54,7 +54,7 @@ class AuthController {
         message: 'logoutSuccess',
         accessToken: ''
       };
-      sendSuccessResponse(res, response, 200);
+      sendSuccessResponse(req, res, response, 200);
     } catch (error) {
       next(error);
     }

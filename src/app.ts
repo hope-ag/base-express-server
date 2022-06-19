@@ -93,13 +93,21 @@ class App {
       i18next
         .use(Backend)
         .use(LanguageDetector)
-        .init({
-          fallbackLng: 'en',
-          preload: ['en', 'fr'],
-          backend: {
-            loadPath: './locales/{{lng}}.json'
+        .init(
+          {
+            fallbackLng: 'en',
+            load: 'languageOnly',
+            ns: ['common'],
+            defaultNS: 'common',
+            debug: process.env.NODE_ENV === 'development',
+            backend: {
+              loadPath: __dirname + '/locales/{{lng}}.json'
+            }
+          },
+          err => {
+            handle(err);
           }
-        });
+        );
       this.app.use(handle(i18next));
     } catch (error) {
       logger.error(error);

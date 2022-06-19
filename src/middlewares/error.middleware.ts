@@ -5,11 +5,12 @@ import { logger } from 'utils/logger';
 const errorMiddleware = (error: HttpException, req: Request, res: Response, next: NextFunction) => {
   try {
     const status: number = error.status || 500;
-    let message: string = error.message || 'somethingWentWrong';
-    message = req.t(message);
+    const message: string = error.message || 'somethingWentWrong';
 
-    logger.error(`[${req.method}] ${req.path} >> StatusCode:: ${status}, Message:: ${message}`);
-    res.status(status).json({ message });
+    logger.error(
+      `[${req.method}] ${req.path} >> StatusCode:: ${status}, Message:: ${req.t(message)}`
+    );
+    res.status(status).json({ message: req.t(message) });
   } catch (error) {
     next(error);
   }

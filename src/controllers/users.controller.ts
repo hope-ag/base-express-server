@@ -11,7 +11,7 @@ class UsersController {
     try {
       const userData: User[] = await this.userService.findAllUser();
 
-      sendSuccessResponse(res, userData, 200);
+      sendSuccessResponse(req, res, userData, 200);
     } catch (error) {
       next(error);
     }
@@ -22,7 +22,7 @@ class UsersController {
       const userId: string = req.params.id;
       const userData: User = await this.userService.findUserById(userId);
 
-      sendSuccessResponse(res, userData, 200);
+      sendSuccessResponse(req, res, userData, 200);
     } catch (error) {
       next(error);
     }
@@ -32,7 +32,7 @@ class UsersController {
     try {
       const userData: CreateUserDto = req.body;
       const createUserData: User = await this.userService.createUser(userData);
-      sendSuccessResponse(res, createUserData, 201);
+      sendSuccessResponse(req, res, createUserData, 201);
     } catch (error) {
       next(error);
     }
@@ -44,7 +44,7 @@ class UsersController {
       const userData: CreateUserDto = req.body;
       const updateUserData: User = await this.userService.updateUser(userId, userData);
 
-      sendSuccessResponse(res, updateUserData, 200);
+      sendSuccessResponse(req, res, updateUserData, 200);
     } catch (error) {
       next(error);
     }
@@ -55,7 +55,7 @@ class UsersController {
       const userId: string = req.params.id;
       const deletedData: User = await this.userService.deleteUser(userId);
 
-      sendSuccessResponse(res, deletedData, 200);
+      sendSuccessResponse(req, res, deletedData, 200);
     } catch (error) {
       next(error);
     }

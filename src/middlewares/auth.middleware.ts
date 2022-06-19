@@ -1,8 +1,8 @@
 import { NextFunction, RequestHandler, Response } from 'express';
 import { Unauthorized } from 'http-errors';
 import { RequestWithUser } from '@interfaces/auth.interface';
-import userModel from '@/models/users';
-import { extractTokenData } from '@/core/utils/auth';
+import userModel from '@models/users';
+import { extractTokenData } from '@utils/auth';
 
 /**
  *@param { type } type of token. access or refresh
@@ -28,13 +28,13 @@ const authMiddleware = (type: 'access' | 'refresh'): RequestHandler => {
           req.user = foundUser;
           next();
         } else {
-          next(new Unauthorized(`invalid ${type} token`));
+          next(new Unauthorized('invalidToken'));
         }
       } else {
-        next(new Unauthorized(`${type} token missing`));
+        next(new Unauthorized(`missingToken`));
       }
     } catch (error) {
-      next(new Unauthorized(`${type} token missing`));
+      next(new Unauthorized(`invalidToken`));
     }
   };
 };

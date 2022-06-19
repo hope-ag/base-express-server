@@ -1,6 +1,6 @@
 import { REFRESH_SECRET_KEY, ACCESS_SECRET_KEY, JWT_TOKEN_ISSUER } from '@config';
 import { sign, verify } from 'jsonwebtoken';
-import { DataStoredInToken, TokenData } from '@/interfaces/auth.interface';
+import { DataStoredInToken, TokenData } from '@interfaces/auth.interface';
 import { User } from '@interfaces/users.interface';
 
 export const createToken = (user: User, type: 'access' | 'refresh'): TokenData => {
