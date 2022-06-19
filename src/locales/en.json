@@ -1,0 +1,20 @@
+{
+  "emailExists": "Email already exists",
+  "invalidCredentials": "Invalid credentials",
+  "missingToken": "Missing token",
+  "invalidToken": "Invalid token",
+  "invalidRefreshToken": "Invalid refresh token",
+  "incorrectEmailOrPassword": "Incorrect email or password",
+  "internalServerError": "Internal server error",
+  "couldNotCreateUser": "Could not create user",
+  "dataMustNotBeEmpty": "Data must not be empty",
+  "resourceNotFound": "Resource not found",
+  "accountDoesNotExist": "Account does not exist",
+  "somethingWentWrong": "Something went wrong",
+
+
+  "logoutSuccess": "Logged out successfully",
+  "accountCreated": "Account created successfully",
+  "updated": "Updated successfully",
+  "deleted": "Deleted successfully"
+}

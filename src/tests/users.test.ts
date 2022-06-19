@@ -54,9 +54,7 @@ describe('Testing Users', () => {
 
       (mongoose as any).connect = jest.fn();
       const app = new App([usersRoute]);
-      return request(app.getServer())
-        .get(`${usersRoute.path}/${userId}`)
-        .expect(200);
+      return request(app.getServer()).get(`${usersRoute.path}/${userId}`).expect(200);
     });
   });
 
@@ -79,10 +77,7 @@ describe('Testing Users', () => {
 
       (mongoose as any).connect = jest.fn();
       const app = new App([usersRoute]);
-      return request(app.getServer())
-        .post(`${usersRoute.path}`)
-        .send(userData)
-        .expect(201);
+      return request(app.getServer()).post(`${usersRoute.path}`).send(userData).expect(201);
     });
   });
 
@@ -113,9 +108,7 @@ describe('Testing Users', () => {
 
       (mongoose as any).connect = jest.fn();
       const app = new App([usersRoute]);
-      return request(app.getServer())
-        .put(`${usersRoute.path}/${userId}`)
-        .send(userData);
+      return request(app.getServer()).put(`${usersRoute.path}/${userId}`).send(userData);
     });
   });
 
@@ -134,9 +127,7 @@ describe('Testing Users', () => {
 
       (mongoose as any).connect = jest.fn();
       const app = new App([usersRoute]);
-      return request(app.getServer())
-        .delete(`${usersRoute.path}/${userId}`)
-        .expect(200);
+      return request(app.getServer()).delete(`${usersRoute.path}/${userId}`).expect(200);
     });
   });
 });

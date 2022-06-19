@@ -1,5 +1,5 @@
 {
-    "printWidth": 80,
+    "printWidth": 100,
     "tabWidth": 2,
     "singleQuote": true,
     "useTabs": false,
@@ -8,7 +8,6 @@
     "arrowParens": "avoid",
     "endOfLine": "lf",
     "jsxSingleQuote": true,
-    "jsxBracketSameLine": true,
     "jsxBracketNewLine": false,
     "bracketSameLine": false,
     "bracketNewLine": false,

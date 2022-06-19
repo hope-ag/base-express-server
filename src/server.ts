@@ -1,8 +1,8 @@
-import App from '@/app';
+import App from './app';
 import authRoute from '@routes/auth.route';
 import indexRoute from '@routes/index.route';
 import usersRoute from '@routes/users.route';
-import validateEnv from '@core/utils/validateEnv';
+import validateEnv from '@utils/validateEnv';
 
 validateEnv();
 

@@ -3,8 +3,7 @@ import { CreateUserDto } from '@dtos/users.dto';
 import { RequestWithUser } from '@interfaces/auth.interface';
 import { User } from '@interfaces/users.interface';
 import AuthService from '@services/auth.service';
-import { sendSuccessResponse } from '@/core/utils/httpResponse';
-import { InternalServerError, Unauthorized } from 'http-errors';
+import { sendSuccessResponse } from '@utils/httpResponse';
 import { omit } from 'lodash';
 
 class AuthController {
@@ -13,9 +12,8 @@ class AuthController {
   public signUp = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userData: CreateUserDto = req.body;
-      const signUpUserData: User = await this.authService.signup(userData);
-      if (!signUpUserData) throw new InternalServerError('User not created');
-      sendSuccessResponse(res, 'Account created successfully', 201);
+      await this.authService.signup(userData);
+      sendSuccessResponse(res, 'accountCreated', 201);
     } catch (error) {
       next(error);
     }
@@ -33,17 +31,10 @@ class AuthController {
     }
   };
 
-  public refreshToken = async (
-    req: RequestWithUser,
-    res: Response,
-    next: NextFunction
-  ) => {
+  public refreshToken = async (req: RequestWithUser, res: Response, next: NextFunction) => {
     try {
       const refreshToken = req.cookies['Refresh'];
-      if (!refreshToken) throw new Unauthorized('Refresh token missing');
-      const { accessToken, foundUser } = await this.authService.refreshToken(
-        refreshToken
-      );
+      const { accessToken, foundUser } = await this.authService.refreshToken(refreshToken);
       const response = {
         accessToken,
         user: omit(foundUser, ['password', 'meta'])
@@ -54,17 +45,13 @@ class AuthController {
     }
   };
 
-  public logOut = async (
-    req: RequestWithUser,
-    res: Response,
-    next: NextFunction
-  ) => {
+  public logOut = async (req: RequestWithUser, res: Response, next: NextFunction) => {
     try {
       const userData: User = req.user;
       await this.authService.logout(userData);
       res.setHeader('Set-Cookie', ['Refresh=; Max-age=0; httpOnly;']);
       const response = {
-        message: 'Logged out successfully',
+        message: 'logoutSuccess',
         accessToken: ''
       };
       sendSuccessResponse(res, response, 200);

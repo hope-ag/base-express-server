@@ -15,17 +15,9 @@ class UsersRoute implements Routes {
   }
 
   private initializeRoutes() {
-    this.router.get(
-      `${this.path}`,
-      authMiddleware('access'),
-      this.usersController.getUsers
-    );
+    this.router.get(`${this.path}`, authMiddleware('access'), this.usersController.getUsers);
 
-    this.router.get(
-      `${this.path}/:id`,
-      authMiddleware('access'),
-      this.usersController.getUserById
-    );
+    this.router.get(`${this.path}/:id`, authMiddleware('access'), this.usersController.getUserById);
 
     this.router.post(
       `${this.path}`,

@@ -33,11 +33,7 @@ class AuthRoute implements Routes {
       this.authController.refreshToken
     );
 
-    this.router.post(
-      `${this.path}logout`,
-      authMiddleware('refresh'),
-      this.authController.logOut
-    );
+    this.router.post(`${this.path}logout`, authMiddleware('refresh'), this.authController.logOut);
   }
 }
 

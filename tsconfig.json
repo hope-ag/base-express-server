@@ -21,7 +21,7 @@
     "importHelpers": true,
     "baseUrl": "src",
     "paths": {
-      "@/*": ["*"],
+      "@/*": ["/*"],
       "@config": ["config"],
       "@controllers/*": ["controllers/*"],
       "@databases": ["databases"],
@@ -32,6 +32,7 @@
       "@models/*": ["models/*"],
       "@routes/*": ["routes/*"],
       "@services/*": ["services/*"],
+      "@utils/*": ["utils/*"],
     }
   },
   "include": ["src/**/*.ts", "src/**/*.json", ".env"],

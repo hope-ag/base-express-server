@@ -8,17 +8,13 @@ import morgan from 'morgan';
 import { connect, set } from 'mongoose';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
-import {
-  NODE_ENV,
-  PORT,
-  LOG_FORMAT,
-  ORIGIN,
-  CREDENTIALS,
-  dbConnection
-} from '@config';
+import i18next from 'i18next';
+import Backend from 'i18next-fs-backend';
+import { LanguageDetector, handle } from 'i18next-http-middleware';
+import { NODE_ENV, PORT, LOG_FORMAT, ORIGIN, CREDENTIALS, dbConnection } from '@config';
 import { Routes } from '@interfaces/routes.interface';
 import errorMiddleware from '@middlewares/error.middleware';
-import { logger, stream } from '@core/utils/logger';
+import { logger, stream } from 'utils/logger';
 
 class App {
   public app: express.Application;
@@ -32,6 +28,7 @@ class App {
 
     this.connectToDatabase();
     this.initializeMiddlewares();
+    this.initializeTranslation();
     this.initializeRoutes(routes);
     this.initializeSwagger();
     this.initializeErrorHandling();
@@ -89,6 +86,24 @@ class App {
 
     const specs = swaggerJSDoc(options);
     this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+  }
+
+  private initializeTranslation() {
+    try {
+      i18next
+        .use(Backend)
+        .use(LanguageDetector)
+        .init({
+          fallbackLng: 'en',
+          preload: ['en', 'fr'],
+          backend: {
+            loadPath: './locales/{{lng}}.json'
+          }
+        });
+      this.app.use(handle(i18next));
+    } catch (error) {
+      logger.error(error);
+    }
   }
 
   private initializeErrorHandling() {

@@ -2,22 +2,21 @@ import { config } from 'dotenv';
 config({ path: `.env.${process.env.NODE_ENV || 'development'}.local` });
 
 export const CREDENTIALS = process.env.CREDENTIALS === 'true';
+export const LOG_DIR = '../logs';
+export const LOG_FORMAT = process.env.NODE_ENV === 'production' ? 'combined' : 'dev';
+
 export const {
   NODE_ENV,
   PORT,
-  DB_HOST,
-  DB_PORT,
-  DB_DATABASE,
   ACCESS_SECRET_KEY,
   REFRESH_SECRET_KEY,
   JWT_TOKEN_ISSUER,
-  LOG_FORMAT,
-  LOG_DIR,
+  DB_URI,
   ORIGIN
 } = process.env;
 
 export const dbConnection = {
-  url: `mongodb://${DB_HOST}:${DB_PORT}/${DB_DATABASE}`,
+  url: DB_URI,
   options: {
     useNewUrlParser: true,
     useUnifiedTopology: true,
