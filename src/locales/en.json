@@ -14,7 +14,7 @@
 
 
   "logoutSuccess": "Logged out successfully",
-  "accountCreated": "Account created successfully",
+  "created": "Account created successfully",
   "updated": "Updated successfully",
   "deleted": "Deleted successfully"
 }

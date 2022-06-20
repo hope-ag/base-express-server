@@ -14,7 +14,7 @@
 
 
   "logoutSuccess": "Cerrar sesión con éxito",
-  "accountCreated": "Cuenta creada con éxito",
+  "created": "Cuenta creada con éxito",
   "updated": "actualizado con éxito",
   "deleted": "Borrado exitosamente"
 }
