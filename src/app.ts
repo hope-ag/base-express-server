@@ -11,7 +11,7 @@ import swaggerUi from 'swagger-ui-express';
 import i18next from 'i18next';
 import Backend from 'i18next-fs-backend';
 import { LanguageDetector, handle } from 'i18next-http-middleware';
-import { NODE_ENV, PORT, LOG_FORMAT, ORIGIN, CREDENTIALS, dbConnection } from '@config';
+import { NODE_ENV, PORT, LOG_FORMAT, ORIGIN, CREDENTIALS, dbConnection } from '@/config';
 import { Routes } from '@interfaces/routes.interface';
 import errorMiddleware from '@middlewares/error.middleware';
 import { logger, stream } from 'utils/logger';

@@ -3,16 +3,17 @@ import mongoose from 'mongoose';
 import request from 'supertest';
 import App from '@/app';
 import { CreateUserDto } from '@dtos/users.dto';
-import UsersRoute from '@routes/users.route';
+import usersRoute from '@routes/users.route';
 
 afterAll(async () => {
-  await new Promise<void>(resolve => setTimeout(() => resolve(), 500));
+  setTimeout(() => {
+    return Promise.resolve();
+  }, 500);
 });
 
 describe('Testing Users', () => {
   describe('[GET] /users', () => {
     it('response fineAll Users', async () => {
-      const usersRoute = new UsersRoute();
       const users = usersRoute.usersController.userService.users;
 
       users.find = jest.fn().mockReturnValue([
@@ -43,7 +44,6 @@ describe('Testing Users', () => {
     it('response findOne User', async () => {
       const userId = 'qpwoeiruty';
 
-      const usersRoute = new UsersRoute();
       const users = usersRoute.usersController.userService.users;
 
       users.findOne = jest.fn().mockReturnValue({
@@ -65,7 +65,6 @@ describe('Testing Users', () => {
         password: 'q1w2e3r4'
       };
 
-      const usersRoute = new UsersRoute();
       const users = usersRoute.usersController.userService.users;
 
       users.findOne = jest.fn().mockReturnValue(null);
@@ -89,7 +88,6 @@ describe('Testing Users', () => {
         password: 'q1w2e3r4'
       };
 
-      const usersRoute = new UsersRoute();
       const users = usersRoute.usersController.userService.users;
 
       if (userData.email) {
@@ -116,7 +114,6 @@ describe('Testing Users', () => {
     it('response Delete User', async () => {
       const userId = '60706478aad6c9ad19a31c84';
 
-      const usersRoute = new UsersRoute();
       const users = usersRoute.usersController.userService.users;
 
       users.findByIdAndDelete = jest.fn().mockReturnValue({

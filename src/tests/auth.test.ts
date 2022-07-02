@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import request from 'supertest';
 import App from '@/app';
 import { CreateUserDto } from '@dtos/users.dto';
-import AuthRoute from '@routes/auth.route';
+import authRoute from '@routes/auth.route';
 
 afterAll(async () => {
   await new Promise<void>(resolve => setTimeout(() => resolve(), 500));
@@ -17,7 +17,6 @@ describe('Testing Auth', () => {
         password: 'q1w2e3r4!'
       };
 
-      const authRoute = new AuthRoute();
       const users = authRoute.authController.authService.users;
 
       users.findOne = jest.fn().mockReturnValue(null);
@@ -40,7 +39,6 @@ describe('Testing Auth', () => {
         password: 'q1w2e3r4!'
       };
 
-      const authRoute = new AuthRoute();
       const users = authRoute.authController.authService.users;
 
       users.findOne = jest.fn().mockReturnValue({
