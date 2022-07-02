@@ -1,14 +1,21 @@
-import App from './app';
-import authRoute from '@routes/auth.route';
-import indexRoute from '@routes/index.route';
-import usersRoute from '@routes/users.route';
+import app from './app';
 import validateEnv from '@common/utils/validateEnv';
+import { connect, set } from 'mongoose';
+import { dbConnection } from '@common/config';
+
+export function initDbConnection() {
+  if (process.env.NODE_ENV !== 'production') {
+    set('debug', true);
+  }
+  return connect(dbConnection.url, dbConnection.options);
+}
 
 validateEnv();
 try {
-  const app = new App([indexRoute, usersRoute, authRoute]);
-
-  app.listen();
+  initDbConnection().then(() => {
+    console.log('DB connected');
+    app.listen();
+  });
 } catch (error) {
   console.log(error);
 }

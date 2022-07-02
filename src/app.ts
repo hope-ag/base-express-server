@@ -5,31 +5,31 @@ import express from 'express';
 import helmet from 'helmet';
 import hpp from 'hpp';
 import morgan from 'morgan';
-import { connect, set } from 'mongoose';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import i18next from 'i18next';
 import Backend from 'i18next-fs-backend';
 import { LanguageDetector, handle } from 'i18next-http-middleware';
-import { NODE_ENV, PORT, LOG_FORMAT, ORIGIN, CREDENTIALS, dbConnection } from '@common/config';
+import { NODE_ENV, PORT, LOG_FORMAT, ORIGIN, CREDENTIALS } from '@common/config';
 import { Routes } from '@interfaces/routes.interface';
 import errorMiddleware from '@middlewares/error.middleware';
 import { logger, stream } from '@common/utils/logger';
+
+import { appRoutes } from './routes';
 
 class App {
   public app: express.Application;
   public env: string;
   public port: string | number;
 
-  constructor(routes: Routes[]) {
+  constructor() {
     this.app = express();
     this.env = NODE_ENV || 'development';
     this.port = PORT || 3000;
 
-    this.connectToDatabase();
     this.initializeMiddlewares();
     this.initializeTranslation();
-    this.initializeRoutes(routes);
+    this.initializeRoutes(appRoutes);
     this.initializeSwagger();
     this.initializeErrorHandling();
   }
@@ -45,14 +45,6 @@ class App {
 
   public getServer() {
     return this.app;
-  }
-
-  private connectToDatabase() {
-    if (this.env !== 'production') {
-      set('debug', true);
-    }
-
-    connect(dbConnection.url, dbConnection.options);
   }
 
   private initializeMiddlewares() {
@@ -99,7 +91,7 @@ class App {
             load: 'languageOnly',
             ns: ['common'],
             defaultNS: 'common',
-            debug: process.env.NODE_ENV === 'development',
+            // debug: process.env.NODE_ENV === 'development',
             backend: {
               loadPath: __dirname + '/locales/{{lng}}.json'
             }
@@ -119,4 +111,4 @@ class App {
   }
 }
 
-export default App;
+export default new App();

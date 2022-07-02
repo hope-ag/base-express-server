@@ -8,13 +8,16 @@
     "dev": "cross-env NODE_ENV=development nodemon",
     "start": "cross-env NODE_ENV=production nodemon",
     "build": "tsc && tsc-alias",
-    "test": "jest --forceExit --detectOpenHandles dist/tests",
+    "build:watch": "concurrently \"tsc --watch\" \"tsc-alias --watch\"",
+    "test:dev": "cross-env NODE_ENV=development jest dist/tests/suite",
+    "test:prod": "cross-env NODE_ENV=production jest dist/tests/suite",
     "lint": "eslint --ignore-path .gitignore --ext .ts src/",
     "lint:fix": "npm run lint -- --fix",
     "deploy:prod": "npm run build && pm2 start ecosystem.config.js --only prod",
     "deploy:dev": "pm2 start ecosystem.config.js --only dev"
   },
   "dependencies": {
+    "@ngneat/falso": "^6.0.3",
     "bcrypt": "^5.0.1",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.5",
@@ -44,6 +47,7 @@
     "winston-daily-rotate-file": "^4.5.5"
   },
   "devDependencies": {
+    "@shelf/jest-mongodb": "^3.0.2",
     "@types/bcrypt": "^5.0.0",
     "@types/compression": "^1.7.1",
     "@types/cookie-parser": "^1.4.2",
@@ -67,6 +71,7 @@
     "@types/winston": "^2.4.4",
     "@typescript-eslint/eslint-plugin": "^4.28.2",
     "@typescript-eslint/parser": "^4.28.2",
+    "concurrently": "^7.2.2",
     "cross-env": "^7.0.3",
     "eslint": "^7.30.0",
     "eslint-config-prettier": "^8.3.0",
@@ -75,7 +80,7 @@
     "inquirer": "^8.2.2",
     "jest": "^27.5.1",
     "lint-staged": "^11.0.0",
-    "mongodb-memory-server": "^8.4.1",
+    "mongodb-memory-server": "8.4.1",
     "node-config": "^0.0.2",
     "node-gyp": "^8.1.0",
     "node-mailer": "^0.1.1",

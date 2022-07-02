@@ -5,7 +5,7 @@ import validationMiddleware from '@middlewares/validation.middleware';
 import authMiddleware from '@middlewares/auth.middleware';
 import { registrationSchema } from '@/validators/users.validator';
 
-class UsersRoute implements Routes {
+export class UsersRoute implements Routes {
   public path = '/users';
   public router = Router();
   public usersController = new UsersController();
@@ -41,4 +41,4 @@ class UsersRoute implements Routes {
   }
 }
 
-export default new UsersRoute();
+export const usersRoute = new UsersRoute();

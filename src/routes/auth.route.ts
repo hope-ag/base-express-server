@@ -5,7 +5,7 @@ import authMiddleware from '@middlewares/auth.middleware';
 import validationMiddleware from '@middlewares/validation.middleware';
 import { registrationSchema, loginSchema } from '@/validators/users.validator';
 
-class AuthRoute implements Routes {
+export class AuthRoute implements Routes {
   public path = '/';
   public router = Router();
   public authController = new AuthController();
@@ -37,4 +37,4 @@ class AuthRoute implements Routes {
   }
 }
 
-export default new AuthRoute();
+export const authRoute = new AuthRoute();
