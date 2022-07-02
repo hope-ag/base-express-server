@@ -1,7 +1,6 @@
 import { hash, compare } from 'bcrypt';
-import { CreateUserDto } from '@dtos/users.dto';
 import { BadRequest, Conflict, Unauthorized, InternalServerError } from 'http-errors';
-import { User } from '@interfaces/users.interface';
+import { User, UserLoginData } from '@interfaces/users.interface';
 import userModel from '@models/users';
 import { isEmpty } from '@common/utils/basic';
 import { createCookie, createToken, extractTokenData } from '@common/utils/auth';
@@ -9,7 +8,7 @@ import { createCookie, createToken, extractTokenData } from '@common/utils/auth'
 class AuthService {
   public users = userModel;
 
-  public async signup(userData: CreateUserDto): Promise<User> {
+  public async signup(userData: UserLoginData): Promise<User> {
     if (isEmpty(userData)) throw new BadRequest('dataMustNotBeEmpty');
 
     const foundUser: User = await this.users.findOne({ email: userData.email });
@@ -26,7 +25,7 @@ class AuthService {
     return createUserData;
   }
 
-  public async login(userData: CreateUserDto): Promise<{
+  public async login(userData: UserLoginData): Promise<{
     cookie: string;
     data: {
       accessToken: string;

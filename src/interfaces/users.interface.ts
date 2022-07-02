@@ -6,6 +6,11 @@ export interface User {
   meta?: UserMeta;
 }
 
+export interface UserLoginData {
+  email: string;
+  password: string;
+}
+
 export interface UserMeta {
   refreshToken: string;
   passwordResetToken: string;

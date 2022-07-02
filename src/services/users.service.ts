@@ -1,5 +1,4 @@
 import { hash } from 'bcrypt';
-import { CreateUserDto } from '@dtos/users.dto';
 import { BadRequest, Conflict } from 'http-errors';
 import { User } from '@interfaces/users.interface';
 import userModel from '@models/users';
@@ -22,7 +21,7 @@ class UserService {
     return findUser;
   }
 
-  public async createUser(userData: CreateUserDto): Promise<User> {
+  public async createUser(userData: User): Promise<User> {
     if (isEmpty(userData)) throw new BadRequest('User data must not be empty');
 
     const findUser: User = await this.users.findOne({ email: userData.email });
@@ -37,7 +36,7 @@ class UserService {
     return createUserData;
   }
 
-  public async updateUser(userId: string, userData: CreateUserDto): Promise<User> {
+  public async updateUser(userId: string, userData: User): Promise<User> {
     if (isEmpty(userData)) throw new BadRequest('User data must not be empty');
 
     if (userData.email) {
