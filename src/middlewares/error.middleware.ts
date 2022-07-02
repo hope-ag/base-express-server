@@ -10,7 +10,7 @@ const errorMiddleware = (error: HttpException, req: Request, res: Response, next
     logger.error(
       `[${req.method}] ${req.path} >> StatusCode:: ${status}, Message:: ${req.t(message)}`
     );
-    res.status(status).json({ message: req.t(message) });
+    res.status(status).json({ message: req.t(message), success: false });
   } catch (error) {
     next(error);
   }

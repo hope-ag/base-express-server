@@ -3,7 +3,7 @@ import AuthController from '@controllers/auth.controller';
 import { Routes } from '@interfaces/routes.interface';
 import authMiddleware from '@middlewares/auth.middleware';
 import validationMiddleware from '@middlewares/validation.middleware';
-import { registrationSchema } from '@/validators/users.validator';
+import { registrationSchema, loginSchema } from '@/validators/users.validator';
 
 class AuthRoute implements Routes {
   public path = '/';
@@ -23,7 +23,7 @@ class AuthRoute implements Routes {
 
     this.router.post(
       `${this.path}login`,
-      validationMiddleware(registrationSchema, 'body'),
+      validationMiddleware(loginSchema, 'body'),
       this.authController.logIn
     );
     //check for refresh token in cookie

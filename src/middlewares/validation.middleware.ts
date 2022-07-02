@@ -1,4 +1,5 @@
 import { RequestHandler } from 'express';
+import { UnprocessableEntity } from 'http-errors';
 import { ObjectSchema } from 'joi';
 
 const validationMiddleware = (
@@ -10,7 +11,7 @@ const validationMiddleware = (
       await schema.validateAsync(req[path], { abortEarly: true });
       next();
     } catch (error) {
-      throw new Error(error);
+      next(new UnprocessableEntity(error.message));
     }
   };
 };
