@@ -3,7 +3,7 @@ import { CreateUserDto } from '@dtos/users.dto';
 import { BadRequest, Conflict } from 'http-errors';
 import { User } from '@interfaces/users.interface';
 import userModel from '@models/users';
-import { isEmpty } from '@utils/basic';
+import { isEmpty } from '@common/utils/basic';
 
 class UserService {
   public users = userModel;

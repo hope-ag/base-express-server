@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { CreateUserDto } from '@dtos/users.dto';
 import { User } from '@interfaces/users.interface';
 import userService from '@services/users.service';
-import { sendSuccessResponse } from '@utils/httpResponse';
+import { sendSuccessResponse } from '@common/utils/httpResponse';
 
 class UsersController {
   public userService = new userService();

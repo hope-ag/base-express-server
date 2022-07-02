@@ -3,8 +3,8 @@ import { CreateUserDto } from '@dtos/users.dto';
 import { BadRequest, Conflict, Unauthorized, InternalServerError } from 'http-errors';
 import { User } from '@interfaces/users.interface';
 import userModel from '@models/users';
-import { isEmpty } from '@utils/basic';
-import { createCookie, createToken, extractTokenData } from '@utils/auth';
+import { isEmpty } from '@common/utils/basic';
+import { createCookie, createToken, extractTokenData } from '@common/utils/auth';
 
 class AuthService {
   public users = userModel;

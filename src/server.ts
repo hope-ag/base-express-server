@@ -2,7 +2,7 @@ import App from './app';
 import authRoute from '@routes/auth.route';
 import indexRoute from '@routes/index.route';
 import usersRoute from '@routes/users.route';
-import validateEnv from '@utils/validateEnv';
+import validateEnv from '@common/utils/validateEnv';
 
 validateEnv();
 try {

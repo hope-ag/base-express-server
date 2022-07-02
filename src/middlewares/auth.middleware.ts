@@ -2,7 +2,7 @@ import { NextFunction, RequestHandler, Response } from 'express';
 import { Unauthorized } from 'http-errors';
 import { RequestWithUser } from '@interfaces/auth.interface';
 import userModel from '@models/users';
-import { extractTokenData } from '@utils/auth';
+import { extractTokenData } from '@common/utils/auth';
 
 /**
  *@param { type } type of token. access or refresh
