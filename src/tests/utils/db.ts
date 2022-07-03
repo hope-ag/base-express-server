@@ -1,5 +1,6 @@
 import { connect, set } from 'mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
+import { logger } from '@/common/core/logger';
 
 export async function initDbConnection() {
   const mongoServer = await MongoMemoryServer.create();
@@ -18,7 +19,7 @@ export async function initDbConnection() {
     set('debug', true);
   }
   const connection = await connect(config.url, config.options);
-  console.log('Connected to MongoDB:', url);
+  logger.info('Connected to MongoDB on', url);
 
   return {
     mongoServer,

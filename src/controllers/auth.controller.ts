@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { RequestWithUser } from '@interfaces/auth.interface';
 import { UserLoginData, User } from '@interfaces/users.interface';
 import AuthService from '@services/auth.service';
-import { sendSuccessResponse } from '@common/utils/httpResponse';
+import { sendSuccessResponse } from '@/common/core/httpResponse';
 import { omit } from 'lodash';
 
 class AuthController {

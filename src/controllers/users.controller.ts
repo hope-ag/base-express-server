@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { User } from '@interfaces/users.interface';
 import userService from '@services/users.service';
-import { sendSuccessResponse } from '@common/utils/httpResponse';
+import { sendSuccessResponse } from '@/common/core/httpResponse';
 
 class UsersController {
   public userService = new userService();

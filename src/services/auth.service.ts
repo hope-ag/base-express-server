@@ -3,7 +3,7 @@ import { BadRequest, Conflict, Unauthorized, InternalServerError } from 'http-er
 import { User, UserLoginData } from '@interfaces/users.interface';
 import userModel from '@models/users';
 import { isEmpty } from '@common/utils/basic';
-import { createCookie, createToken, extractTokenData } from '@common/utils/auth';
+import { createCookie, createToken, extractTokenData } from '@/common/utils/tokens';
 
 class AuthService {
   public users = userModel;

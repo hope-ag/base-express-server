@@ -13,7 +13,7 @@ import { LanguageDetector, handle } from 'i18next-http-middleware';
 import { NODE_ENV, PORT, LOG_FORMAT, ORIGIN, CREDENTIALS } from '@common/config';
 import { Routes } from '@interfaces/routes.interface';
 import errorMiddleware from '@middlewares/error.middleware';
-import { logger, stream } from '@common/utils/logger';
+import { logger, stream } from '@/common/core/logger';
 
 import { appRoutes } from './routes';
 

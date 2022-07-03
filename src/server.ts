@@ -2,6 +2,7 @@ import app from './app';
 import validateEnv from '@common/utils/validateEnv';
 import { connect, set } from 'mongoose';
 import { dbConnection } from '@common/config';
+import { logger } from './common/core/logger';
 
 export function initDbConnection() {
   if (process.env.NODE_ENV !== 'production') {
@@ -13,9 +14,9 @@ export function initDbConnection() {
 validateEnv();
 try {
   initDbConnection().then(() => {
-    console.log('DB connected');
+    logger.info('Connected to MongoDB');
     app.listen();
   });
 } catch (error) {
-  console.log(error);
+  logger.error(error);
 }

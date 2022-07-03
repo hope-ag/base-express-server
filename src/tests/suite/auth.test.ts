@@ -20,17 +20,25 @@ afterAll(async () => {
 
 import { mockUserRegistrationData } from '../mock/data/users';
 import { getResponseData } from '../utils/getResponseData';
-const userData1 = mockUserRegistrationData();
+const userData = mockUserRegistrationData();
 
 describe('Testing Auth', () => {
   describe('Input validations', () => {
-    const userData2 = { ...userData1, email: 'b' };
-    const userData3 = { ...userData1, password: 'a' };
     describe('[POST] /signup', () => {
       it('should fail to register with invalid email', async () => {
         return await request(app.getServer())
           .post(authRoute.path + 'signup')
-          .send(userData2)
+          .send({ ...userData, email: 'invalidEmail' })
+          .expect(422)
+          .then(res => {
+            expect(res.body.message).toContain('email');
+            expect(res.body.success).toBe(false);
+          });
+      });
+      it('should fail to login with empty email', async () => {
+        return await request(app.getServer())
+          .post(authRoute.path + 'login')
+          .send({ ...userData, email: '' })
           .expect(422)
           .then(res => {
             expect(res.body.message).toContain('email');
@@ -40,7 +48,7 @@ describe('Testing Auth', () => {
       it('should fail to register with invalid password', async () => {
         return await request(app.getServer())
           .post(authRoute.path + 'signup')
-          .send(userData3)
+          .send({ ...userData, password: 'b' })
           .expect(422)
           .then(res => {
             expect(res.body.message).toContain('password');
@@ -54,7 +62,7 @@ describe('Testing Auth', () => {
       it('should register successfully', async () => {
         return await request(app.getServer())
           .post(authRoute.path + 'signup')
-          .send(userData1)
+          .send(userData)
           .expect(201)
           .then(res => {
             expect(res.body.data).toBeDefined();
@@ -64,7 +72,7 @@ describe('Testing Auth', () => {
       it('should fail to register if email already exists', async () => {
         return await request(app.getServer())
           .post(authRoute.path + 'signup')
-          .send(userData1)
+          .send(userData)
           .expect(409)
           .then(res => {
             expect(res.body.message).toContain('Email');
@@ -78,7 +86,7 @@ describe('Testing Auth', () => {
     let refreshToken = '';
     describe('[POST] /login', () => {
       it('should fail to login with invalid email or password', async () => {
-        const wrongUserData = { ...userData1, email: userData1.email + 'a' };
+        const wrongUserData = { ...userData, email: userData.email + 'a' };
         return await request(app.getServer())
           .post(authRoute.path + 'login')
           .send(wrongUserData)
@@ -95,7 +103,7 @@ describe('Testing Auth', () => {
       it('should login successfully', async () => {
         return await request(app.getServer())
           .post(authRoute.path + 'login')
-          .send(userData1)
+          .send(userData)
           .expect(200)
           .then(res => {
             const { data, access, refresh } = getResponseData(res);
