@@ -1,9 +1,11 @@
 import { User } from '@/interfaces/users.interface';
 import { randEmail, randPassword, randUuid } from '@ngneat/falso';
 export const mockUserRegistrationData = () => {
+  const email = randEmail();
+  const password = randPassword() + '22@#';
   return {
-    email: randEmail(),
-    password: randPassword()
+    email,
+    password
   };
 };
 

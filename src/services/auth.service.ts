@@ -34,11 +34,11 @@ class AuthService {
   }> {
     if (isEmpty(userData)) throw new BadRequest('dataMustNotBeEmpty');
 
-    const foundUser = (await this.users.findOne({ email: userData.email })).toJSON();
-    if (!foundUser) throw new Unauthorized('emailExists');
+    const foundUser = (await this.users.findOne({ email: userData.email }))?.toJSON();
+    if (!foundUser) throw new Unauthorized('incorrectEmailOrPassword');
 
     const isPasswordMatching: boolean = await compare(userData.password, foundUser.password);
-    if (!isPasswordMatching) throw new Conflict('incorrectEmailOrPassword');
+    if (!isPasswordMatching) throw new Unauthorized('incorrectEmailOrPassword');
 
     const refreshToken = createToken(foundUser, 'refresh');
     const accessToken = createToken(foundUser, 'access');

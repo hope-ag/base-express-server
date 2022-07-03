@@ -5,6 +5,8 @@ module.exports = {
   verbose: true,
   forceExit: true,
   clearMocks: true,
-  detectOpenHandles: true
-  // setupFiles: ['<rootDir>/tests/setup.ts']
+  detectOpenHandles: true,
+  coverageDirectory: 'coverage'
+  // collectCoverage: true
+  // setupFiles: ['<rootDir>/dist/tests/utils/setup.js']
 };

@@ -4,8 +4,8 @@ import app from '@/app';
 
 describe('Testing Index', () => {
   describe('[GET] /', () => {
-    it('response statusCode 200', () => {
-      return request(app.getServer()).get(`${indexRoute.path}`).expect(200);
+    it('response statusCode 200', async () => {
+      return await request(app.getServer()).get(`${indexRoute.path}`).expect(200);
     });
   });
 });

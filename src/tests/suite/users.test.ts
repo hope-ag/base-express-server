@@ -2,6 +2,21 @@ import request from 'supertest';
 import { usersRoute } from '@routes/users.route';
 import app from '@/app';
 import { mockDBUsers } from '../mock/data/users';
+import { MongoMemoryServer } from 'mongodb-memory-server';
+import { initDbConnection } from '../utils/db';
+
+let dbConnection: any;
+let mongoServer: MongoMemoryServer;
+beforeAll(async () => {
+  const db = await initDbConnection();
+  dbConnection = db.connection.connection;
+  mongoServer = db.mongoServer;
+});
+
+afterAll(async () => {
+  await dbConnection.close();
+  await mongoServer.stop();
+});
 
 describe('Testing Users', () => {
   const mockUsers = mockDBUsers(5);
@@ -11,7 +26,7 @@ describe('Testing Users', () => {
   describe('Failure Cases', () => {
     describe('[GET] /users', () => {
       it('should fail when auth token is absent', async () => {
-        return request(app.getServer()).get(`${usersRoute.path}`).expect(401);
+        return await request(app.getServer()).get(`${usersRoute.path}`).expect(401);
       });
     });
 

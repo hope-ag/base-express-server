@@ -18,6 +18,7 @@ export async function initDbConnection() {
     set('debug', true);
   }
   const connection = await connect(config.url, config.options);
+  console.log('Connected to MongoDB:', url);
 
   return {
     mongoServer,
