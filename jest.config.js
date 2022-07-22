@@ -6,7 +6,7 @@ module.exports = {
   forceExit: true,
   clearMocks: true,
   detectOpenHandles: true,
-  coverageDirectory: 'coverage'
-  // collectCoverage: true
+  coverageDirectory: 'coverage',
+  collectCoverage: true
   // setupFiles: ['<rootDir>/dist/tests/utils/setup.js']
 };
