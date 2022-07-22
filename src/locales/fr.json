@@ -11,6 +11,7 @@
   "resourceNotFound": "Ressource introuvable",
   "accountDoesNotExist": "Le compte n'existe pas",
   "somethingWentWrong": "quelque chose s'est mal passé",
+  "forbidden": "Vous n'avez pas la permission d'accéder à cette ressource",
 
 
   "logoutSuccess": "Déconnecté avec succès",

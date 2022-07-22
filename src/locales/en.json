@@ -11,6 +11,7 @@
   "resourceNotFound": "Resource not found",
   "accountDoesNotExist": "Account does not exist",
   "somethingWentWrong": "Something went wrong",
+  "forbidden": "You do not have permission to access this resource",
 
 
   "logoutSuccess": "Logged out successfully",
