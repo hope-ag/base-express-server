@@ -1,7 +1,7 @@
 import { NextFunction, RequestHandler, Response } from 'express';
 import { Unauthorized } from 'http-errors';
 import { RequestWithUser } from '@interfaces/auth.interface';
-import userModel from '@models/users';
+import userModel from '@/database/models/users';
 import { extractTokenData } from '@/common/utils/tokens';
 
 /**

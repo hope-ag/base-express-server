@@ -20,3 +20,5 @@ export interface UserMeta {
 export type UserRole = 'admin' | 'user';
 
 export const UserRoles = ['admin', 'user'];
+
+export type UserFields = keyof User;

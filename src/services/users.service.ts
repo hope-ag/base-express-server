@@ -1,7 +1,7 @@
 import { hash } from 'bcrypt';
 import { BadRequest, Conflict } from 'http-errors';
 import { User } from '@interfaces/users.interface';
-import userModel from '@models/users';
+import userModel from '@/database/models/users';
 import { isEmpty } from '@common/utils/basic';
 
 class UserService {

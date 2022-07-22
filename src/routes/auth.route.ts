@@ -7,6 +7,7 @@ import { registrationSchema, loginSchema } from '@/validators/users.validator';
 
 export class AuthRoute implements Routes {
   public path = '/';
+  public domain: 'auth';
   public router = Router();
   public authController = new AuthController();
 

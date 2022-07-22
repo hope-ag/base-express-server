@@ -1,7 +1,7 @@
 import { hash, compare } from 'bcrypt';
 import { BadRequest, Conflict, Unauthorized, InternalServerError } from 'http-errors';
 import { User, UserLoginData } from '@interfaces/users.interface';
-import userModel from '@models/users';
+import userModel from '@/database/models/users';
 import { isEmpty } from '@common/utils/basic';
 import { createCookie, createToken, extractTokenData } from '@/common/utils/tokens';
 
