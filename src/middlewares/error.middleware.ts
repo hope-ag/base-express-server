@@ -5,7 +5,7 @@ import { logger } from '@/common/core/logger';
 const errorMiddleware = (error: HttpException, req: Request, res: Response, next: NextFunction) => {
   try {
     const status: number = error.status || 500;
-    const message: string = error.message || 'somethingWentWrong';
+    const message: string = error.message || 'errorMessages.somethingWentWrong';
 
     logger.error(
       `[${req.method}] ${req.path} >> StatusCode:: ${status}, Message:: ${req.t(message)}`

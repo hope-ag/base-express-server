@@ -28,13 +28,13 @@ const authMiddleware = (type: 'access' | 'refresh'): RequestHandler => {
           req.user = foundUser;
           next();
         } else {
-          next(new Unauthorized('invalidToken'));
+          next(new Unauthorized('errorMessages.invalidToken'));
         }
       } else {
-        next(new Unauthorized(`missingToken`));
+        next(new Unauthorized(`errorMessages.missingToken`));
       }
     } catch (error) {
-      next(new Unauthorized(`invalidToken`));
+      next(new Unauthorized(`errorMessages.invalidToken`));
     }
   };
 };

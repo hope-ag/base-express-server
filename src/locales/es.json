@@ -1,21 +1,24 @@
 {
-  "emailExists": "el Email ya existe",
-  "invalidCredentials": "credenciales no válidas",
-  "missingToken": "ficha faltante",
-  "invalidToken": "simbolo no valido",
-  "invalidRefreshToken": "Token de actualización no válido",
-  "incorrectEmailOrPassword": "Correo o contraseña incorrectos",
-  "internalServerError": "Error de servidor interno",
-  "couldNotCreateUser": "No se pudo crear el usuario",
-  "dataMustNotBeEmpty": "Los datos no deben estar vacíos",
-  "resourceNotFound": "Recurso no encontrado",
-  "accountDoesNotExist": "La cuenta no existe",
-  "somethingWentWrong": "algo salió mal",
-  "forbidden": "No tienes permiso para realizar esta acción",
+  "errorMessages": {
+    "emailExists": "el Email ya existe",
+    "invalidCredentials": "credenciales no válidas",
+    "missingToken": "ficha faltante",
+    "invalidToken": "simbolo no valido",
+    "invalidRefreshToken": "Token de actualización no válido",
+    "incorrectEmailOrPassword": "Correo o contraseña incorrectos",
+    "internalServerError": "Error de servidor interno",
+    "couldNotCreateUser": "No se pudo crear el usuario",
+    "dataMustNotBeEmpty": "Los datos no deben estar vacíos",
+    "resourceNotFound": "Recurso no encontrado",
+    "accountDoesNotExist": "La cuenta no existe",
+    "somethingWentWrong": "algo salió mal",
+    "forbidden": "No tienes permiso para realizar esta acción"
+  },
 
-
-  "logoutSuccess": "Cerrar sesión con éxito",
-  "created": "Cuenta creada con éxito",
-  "updated": "actualizado con éxito",
-  "deleted": "Borrado exitosamente"
+  "successMessages": {
+    "logoutSuccess": "Cerrar sesión con éxito",
+    "created": "Cuenta creada con éxito",
+    "updated": "actualizado con éxito",
+    "deleted": "Borrado exitosamente"
+  }
 }

@@ -9,10 +9,10 @@ class AuthService {
   public users = userModel;
 
   public async signup(userData: UserLoginData): Promise<User> {
-    if (isEmpty(userData)) throw new BadRequest('dataMustNotBeEmpty');
+    if (isEmpty(userData)) throw new BadRequest('errorMessages.dataMustNotBeEmpty');
 
     const foundUser: User = await this.users.findOne({ email: userData.email });
-    if (foundUser) throw new Conflict(`emailExists`);
+    if (foundUser) throw new Conflict(`errorMessages.emailExists`);
 
     const hashedPassword = await hash(userData.password, 10);
     const createUserData: User = await this.users.create({
@@ -20,7 +20,7 @@ class AuthService {
       password: hashedPassword
     });
 
-    if (!createUserData) throw new InternalServerError('couldNotCreateUser');
+    if (!createUserData) throw new InternalServerError('errorMessages.couldNotCreateUser');
 
     return createUserData;
   }
@@ -32,13 +32,13 @@ class AuthService {
       user: User;
     };
   }> {
-    if (isEmpty(userData)) throw new BadRequest('dataMustNotBeEmpty');
+    if (isEmpty(userData)) throw new BadRequest('errorMessages.dataMustNotBeEmpty');
 
     const foundUser = (await this.users.findOne({ email: userData.email }))?.toJSON();
-    if (!foundUser) throw new Unauthorized('incorrectEmailOrPassword');
+    if (!foundUser) throw new Unauthorized('errorMessages.incorrectEmailOrPassword');
 
     const isPasswordMatching: boolean = await compare(userData.password, foundUser.password);
-    if (!isPasswordMatching) throw new Unauthorized('incorrectEmailOrPassword');
+    if (!isPasswordMatching) throw new Unauthorized('errorMessages.incorrectEmailOrPassword');
 
     const refreshToken = createToken(foundUser, 'refresh');
     const accessToken = createToken(foundUser, 'access');
@@ -59,26 +59,26 @@ class AuthService {
   }
 
   public async refreshToken(token: string): Promise<{ accessToken: string; foundUser: User }> {
-    if (isEmpty(token)) throw new Unauthorized('missingToken');
+    if (isEmpty(token)) throw new Unauthorized('errorMessages.missingToken');
     //extract userId from token
     const { _id } = extractTokenData(token, 'refresh');
-    if (isEmpty(_id)) throw new Unauthorized('invalidToken');
+    if (isEmpty(_id)) throw new Unauthorized('errorMessages.invalidToken');
     const foundUser = (await this.users.findById(_id, '-password')).toJSON();
-    if (!foundUser) throw new Unauthorized('resourceNotFound');
-    if (foundUser.meta.refreshToken !== token) throw new Unauthorized('invalidToken');
+    if (!foundUser) throw new Unauthorized('errorMessages.resourceNotFound');
+    if (foundUser.meta.refreshToken !== token) throw new Unauthorized('errorMessages.invalidToken');
     const newAccessToken = createToken(foundUser, 'access');
     const sanitizedData = { ...foundUser, meta: undefined };
     return { accessToken: newAccessToken.token, foundUser: sanitizedData };
   }
 
   public async logout(userData: User): Promise<User> {
-    if (isEmpty(userData)) throw new BadRequest('dataMustNotBeEmpty');
+    if (isEmpty(userData)) throw new BadRequest('errorMessages.dataMustNotBeEmpty');
 
     const foundUser: User = await this.users.findOne({
       email: userData.email,
       password: userData.password
     });
-    if (!foundUser) throw new Conflict('accountDoesNotExist');
+    if (!foundUser) throw new Conflict('errorMessages.accountDoesNotExist');
 
     this.users.findByIdAndUpdate(foundUser._id, { 'meta.refreshToken': '' });
 

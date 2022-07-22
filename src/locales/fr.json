@@ -1,21 +1,24 @@
 {
-  "emailExists": "l'email existe déjà",
-  "invalidCredentials": "les informations d'identification invalides",
-  "missingToken": "Jeton manquant",
-  "invalidToken": "jeton invalide",
-  "invalidRefreshToken": "Jeton d'actualisation non valide",
-  "incorrectEmailOrPassword": "email ou mot de passe incorrect",
-  "internalServerError": "Erreur interne du serveur",
-  "couldNotCreateUser": "Impossible de créer l'utilisateur",
-  "dataMustNotBeEmpty": "Les données ne doivent pas être vides",
-  "resourceNotFound": "Ressource introuvable",
-  "accountDoesNotExist": "Le compte n'existe pas",
-  "somethingWentWrong": "quelque chose s'est mal passé",
-  "forbidden": "Vous n'avez pas la permission d'accéder à cette ressource",
+  "errorMessages": {
+    "emailExists": "l'email existe déjà",
+    "invalidCredentials": "les informations d'identification invalides",
+    "missingToken": "Jeton manquant",
+    "invalidToken": "jeton invalide",
+    "invalidRefreshToken": "Jeton d'actualisation non valide",
+    "incorrectEmailOrPassword": "email ou mot de passe incorrect",
+    "internalServerError": "Erreur interne du serveur",
+    "couldNotCreateUser": "Impossible de créer l'utilisateur",
+    "dataMustNotBeEmpty": "Les données ne doivent pas être vides",
+    "resourceNotFound": "Ressource introuvable",
+    "accountDoesNotExist": "Le compte n'existe pas",
+    "somethingWentWrong": "quelque chose s'est mal passé",
+    "forbidden": "Vous n'avez pas la permission d'accéder à cette ressource"
+  },
 
-
-  "logoutSuccess": "Déconnecté avec succès",
-  "created": "Compte créé avec succès",
-  "updated": "Mis à jour avec succés",
-  "deleted": "Supprimé avec succès"
+  "successMessages": {
+    "logoutSuccess": "Déconnecté avec succès",
+    "created": "Compte créé avec succès",
+    "updated": "Mis à jour avec succés",
+    "deleted": "Supprimé avec succès"
+  }
 }

@@ -19,10 +19,10 @@ export function getPermissions(domain: AppDomain, operation: CrudOperation) {
         console.log({ permissionsForRole, operation, domain, role });
         next();
       } else {
-        next(new Forbidden('forbidden'));
+        next(new Forbidden('errorMessages.forbidden'));
       }
     } catch {
-      next(new Forbidden('forbidden'));
+      next(new Forbidden('errorMessages.forbidden'));
     }
   };
 }

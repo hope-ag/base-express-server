@@ -5,11 +5,11 @@ import { UserRole } from '@/interfaces/users.interface';
 export const permissions: Record<AppDomain, Record<UserRole, CrudOperation[]>> = {
   users: {
     admin: ['create', 'read', 'update', 'delete'],
-    user: ['create']
+    user: ['read']
   },
   products: {
     admin: ['create', 'read', 'update', 'delete'],
-    user: ['create']
+    user: ['read']
   },
   app: {
     admin: ['create', 'read', 'update', 'delete'],
@@ -17,6 +17,6 @@ export const permissions: Record<AppDomain, Record<UserRole, CrudOperation[]>> =
   },
   auth: {
     admin: ['create', 'read', 'update', 'delete'],
-    user: ['create']
+    user: ['read']
   }
 };
