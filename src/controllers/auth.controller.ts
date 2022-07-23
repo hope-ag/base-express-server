@@ -12,7 +12,7 @@ class AuthController {
     try {
       const userData: UserLoginData = req.body;
       await this.authService.signup(userData);
-      sendSuccessResponse(req, res, 'created', 201);
+      sendSuccessResponse(req, res, 'successMessages.created', 201);
     } catch (error) {
       next(error);
     }
@@ -32,12 +32,15 @@ class AuthController {
 
   public refreshToken = async (req: RequestWithUser, res: Response, next: NextFunction) => {
     try {
-      const refreshToken = req.cookies['Refresh'];
-      const { accessToken, foundUser } = await this.authService.refreshToken(refreshToken);
+      const { accessToken, foundUser, cookie } = await this.authService.refreshToken(
+        req.user._id,
+        req.user.meta.refreshToken
+      );
       const response = {
         accessToken,
         user: omit(foundUser, ['password', 'meta'])
       };
+      res.setHeader('Set-Cookie', [cookie]);
       sendSuccessResponse(req, res, response, 200);
     } catch (error) {
       next(error);
@@ -50,7 +53,7 @@ class AuthController {
       await this.authService.logout(userData);
       res.setHeader('Set-Cookie', ['Refresh=; Max-age=0; httpOnly;']);
       const response = {
-        message: 'logoutSuccess',
+        message: 'successMessages.logoutSuccess',
         accessToken: ''
       };
       sendSuccessResponse(req, res, response, 200);

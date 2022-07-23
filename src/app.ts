@@ -1,3 +1,4 @@
+import { configureAuthStrategies } from './common/config/passport.config';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -16,6 +17,7 @@ import errorMiddleware from '@middlewares/error.middleware';
 import { logger, stream } from '@/common/core/logger';
 
 import { appRoutes } from './routes';
+import passport from 'passport';
 
 class App {
   public app: express.Application;
@@ -27,6 +29,7 @@ class App {
     this.env = NODE_ENV || 'development';
     this.port = PORT || 3000;
 
+    this.initializePassportAuth();
     this.initializeMiddlewares();
     this.initializeTranslation();
     this.initializeRoutes(appRoutes);
@@ -78,6 +81,14 @@ class App {
 
     const specs = swaggerJSDoc(options);
     this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+  }
+
+  private initializePassportAuth() {
+    console.log('start');
+    configureAuthStrategies(passport);
+    console.log('mid');
+    this.app.use(passport.initialize());
+    console.log('end');
   }
 
   private initializeTranslation() {

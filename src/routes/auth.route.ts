@@ -1,9 +1,10 @@
 import { Router } from 'express';
 import AuthController from '@controllers/auth.controller';
 import { Routes } from '@interfaces/routes.interface';
-import authMiddleware from '@middlewares/auth.middleware';
+// import authMiddleware from '@middlewares/auth.middleware';
 import validationMiddleware from '@middlewares/validation.middleware';
 import { registrationSchema, loginSchema } from '@/validators/users.validator';
+import passport from 'passport';
 
 export class AuthRoute implements Routes {
   public path = '/';
@@ -30,11 +31,15 @@ export class AuthRoute implements Routes {
     //check for refresh token in cookie
     this.router.post(
       `${this.path}refresh`,
-      authMiddleware('refresh'),
+      passport.authenticate('cookie', { session: false }),
       this.authController.refreshToken
     );
 
-    this.router.post(`${this.path}logout`, authMiddleware('refresh'), this.authController.logOut);
+    this.router.post(
+      `${this.path}logout`,
+      passport.authenticate('cookie', { session: false }),
+      this.authController.logOut
+    );
   }
 }
 

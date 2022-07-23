@@ -1,9 +1,13 @@
 import { config } from 'dotenv';
+import path from 'path';
 config({ path: `.env.${process.env.NODE_ENV || 'development'}.local` });
 
 export const CREDENTIALS = process.env.CREDENTIALS === 'true';
-export const LOG_DIR = '../logs';
+export const LOG_DIR = path.resolve(__dirname, '..', '..', '..', 'logs');
+export const ROOT_DIR = path.resolve(__dirname, '..', '..', '..');
 export const LOG_FORMAT = process.env.NODE_ENV === 'production' ? 'combined' : 'dev';
+
+export const JWT_TOKEN_ALGORITHM = 'RS256';
 
 export const {
   NODE_ENV,

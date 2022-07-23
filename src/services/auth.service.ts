@@ -58,17 +58,21 @@ class AuthService {
     };
   }
 
-  public async refreshToken(token: string): Promise<{ accessToken: string; foundUser: User }> {
-    if (isEmpty(token)) throw new Unauthorized('errorMessages.missingToken');
-    //extract userId from token
-    const { _id } = extractTokenData(token, 'refresh');
-    if (isEmpty(_id)) throw new Unauthorized('errorMessages.invalidToken');
-    const foundUser = (await this.users.findById(_id, '-password')).toJSON();
+  public async refreshToken(
+    id: string,
+    token: string
+  ): Promise<{ accessToken: string; foundUser: User; cookie: string }> {
+    if (isEmpty(id)) throw new Unauthorized('errorMessages.missingToken');
+    const foundUser = await this.users.findById(id, '-password');
     if (!foundUser) throw new Unauthorized('errorMessages.resourceNotFound');
     if (foundUser.meta.refreshToken !== token) throw new Unauthorized('errorMessages.invalidToken');
+    const refreshToken = createToken(foundUser, 'refresh');
     const newAccessToken = createToken(foundUser, 'access');
-    const sanitizedData = { ...foundUser, meta: undefined };
-    return { accessToken: newAccessToken.token, foundUser: sanitizedData };
+    const cookie = createCookie(refreshToken);
+    const sanitizedData = { ...foundUser.toJSON(), meta: undefined };
+    foundUser.meta.refreshToken = refreshToken.token;
+    await foundUser.save();
+    return { accessToken: newAccessToken.token, foundUser: sanitizedData, cookie };
   }
 
   public async logout(userData: User): Promise<User> {
