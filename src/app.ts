@@ -1,3 +1,4 @@
+import { appRequestSpeedLimiter } from './middlewares/rate-limit.middleware';
 import { configureAuthStrategies } from './common/config/passport.config';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
@@ -19,6 +20,8 @@ import { logger, stream } from '@/common/core/logger';
 import { appRoutes } from './routes';
 import passport from 'passport';
 
+// const ipAddr = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+
 class App {
   public app: express.Application;
   public env: string;
@@ -28,7 +31,6 @@ class App {
     this.app = express();
     this.env = NODE_ENV || 'development';
     this.port = PORT || 3000;
-
     this.initializePassportAuth();
     this.initializeMiddlewares();
     this.initializeTranslation();
@@ -51,6 +53,7 @@ class App {
   }
 
   private initializeMiddlewares() {
+    this.app.use(appRequestSpeedLimiter);
     this.app.use(morgan(LOG_FORMAT, { stream }));
     this.app.use(cors({ origin: ORIGIN, credentials: CREDENTIALS }));
     this.app.use(hpp());
@@ -84,11 +87,8 @@ class App {
   }
 
   private initializePassportAuth() {
-    console.log('start');
     configureAuthStrategies(passport);
-    console.log('mid');
     this.app.use(passport.initialize());
-    console.log('end');
   }
 
   private initializeTranslation() {

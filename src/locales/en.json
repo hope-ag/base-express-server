@@ -12,7 +12,8 @@
     "resourceNotFound": "Resource not found",
     "accountDoesNotExist": "Account does not exist",
     "somethingWentWrong": "Something went wrong",
-    "forbidden": "You do not have permission to access this resource"
+    "forbidden": "You do not have permission to access this resource",
+    "tooManyRequests": "'Too many requests from this IP, please try again after an hour'"
   },
 
   "successMessages": {

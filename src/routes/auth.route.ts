@@ -1,10 +1,10 @@
+import { authenticateUser } from '@/middlewares/auth.middleware';
 import { Router } from 'express';
 import AuthController from '@controllers/auth.controller';
 import { Routes } from '@interfaces/routes.interface';
-// import authMiddleware from '@middlewares/auth.middleware';
 import validationMiddleware from '@middlewares/validation.middleware';
 import { registrationSchema, loginSchema } from '@/validators/users.validator';
-import passport from 'passport';
+import { authLimiter } from '@/middlewares/rate-limit.middleware';
 
 export class AuthRoute implements Routes {
   public path = '/';
@@ -19,25 +19,27 @@ export class AuthRoute implements Routes {
   private initializeRoutes() {
     this.router.post(
       `${this.path}signup`,
+      authLimiter,
       validationMiddleware(registrationSchema, 'body'),
       this.authController.signUp
     );
 
     this.router.post(
       `${this.path}login`,
+      authLimiter,
       validationMiddleware(loginSchema, 'body'),
       this.authController.logIn
     );
     //check for refresh token in cookie
     this.router.post(
       `${this.path}refresh`,
-      passport.authenticate('cookie', { session: false }),
+      authenticateUser('cookie', 'errorMessages.invalidRefreshToken'),
       this.authController.refreshToken
     );
 
     this.router.post(
       `${this.path}logout`,
-      passport.authenticate('cookie', { session: false }),
+      authenticateUser('cookie', 'errorMessages.invalidRefreshToken'),
       this.authController.logOut
     );
   }

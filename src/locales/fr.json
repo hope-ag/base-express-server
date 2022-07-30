@@ -12,7 +12,8 @@
     "resourceNotFound": "Ressource introuvable",
     "accountDoesNotExist": "Le compte n'existe pas",
     "somethingWentWrong": "quelque chose s'est mal passé",
-    "forbidden": "Vous n'avez pas la permission d'accéder à cette ressource"
+    "forbidden": "Vous n'avez pas la permission d'accéder à cette ressource",
+    "tooManyRequests": "Trop de requêtes depuis cette adresse IP. Essayez dans 1 heure"
   },
 
   "successMessages": {

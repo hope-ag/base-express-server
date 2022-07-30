@@ -15,6 +15,8 @@ export const {
   ACCESS_SECRET_KEY,
   REFRESH_SECRET_KEY,
   JWT_TOKEN_ISSUER,
+  REDIS_HOST,
+  REDIS_PORT,
   DB_URI,
   ORIGIN
 } = process.env;

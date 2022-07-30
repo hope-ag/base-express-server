@@ -12,7 +12,8 @@
     "resourceNotFound": "Recurso no encontrado",
     "accountDoesNotExist": "La cuenta no existe",
     "somethingWentWrong": "algo salió mal",
-    "forbidden": "No tienes permiso para realizar esta acción"
+    "forbidden": "No tienes permiso para realizar esta acción",
+    "tooManyRequests": "Demasiados intentos. Inténtalo de nuevo en 1 hora"
   },
 
   "successMessages": {
