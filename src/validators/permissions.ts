@@ -1,4 +1,4 @@
-import { AppDomain } from './../interfaces/misc.interface';
+import { AppDomain } from '@/interfaces/misc.interface';
 import { CrudOperation } from '@/interfaces/misc.interface';
 import { UserRole } from '@/interfaces/users.interface';
 

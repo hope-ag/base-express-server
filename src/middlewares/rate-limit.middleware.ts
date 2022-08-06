@@ -1,7 +1,6 @@
 // import { REDIS_PORT, REDIS_HOST } from '@/common/config';
 import rateLimit from 'express-rate-limit';
 import slowDown from 'express-slow-down';
-import { t } from 'i18next';
 import RedisStore from 'rate-limit-redis';
 import RedisClient from 'ioredis';
 import { NextFunction, Request, Response } from 'express';

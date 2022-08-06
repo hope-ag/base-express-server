@@ -1,5 +1,5 @@
-import { appRequestSpeedLimiter } from './middlewares/rate-limit.middleware';
-import { configureAuthStrategies } from './common/config/passport.config';
+import { appRequestSpeedLimiter } from '@middlewares/rate-limit.middleware';
+import { configureAuthStrategies } from '@common/config/passport.config';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';

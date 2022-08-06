@@ -2,7 +2,7 @@ import app from './app';
 import validateEnv from '@common/utils/validateEnv';
 import { connect, set } from 'mongoose';
 import { dbConnection } from '@common/config';
-import { logger } from './common/core/logger';
+import { logger } from '@common/core/logger';
 
 export function initDbConnection() {
   if (process.env.NODE_ENV !== 'production') {

@@ -9,17 +9,8 @@ export const LOG_FORMAT = process.env.NODE_ENV === 'production' ? 'combined' : '
 
 export const JWT_TOKEN_ALGORITHM = 'RS256';
 
-export const {
-  NODE_ENV,
-  PORT,
-  ACCESS_SECRET_KEY,
-  REFRESH_SECRET_KEY,
-  JWT_TOKEN_ISSUER,
-  REDIS_HOST,
-  REDIS_PORT,
-  DB_URI,
-  ORIGIN
-} = process.env;
+export const { NODE_ENV, PORT, JWT_TOKEN_ISSUER, REDIS_HOST, REDIS_PORT, DB_URI, ORIGIN } =
+  process.env;
 
 export const dbConnection = {
   url: DB_URI,

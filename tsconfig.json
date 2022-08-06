@@ -22,7 +22,6 @@
       "@controllers/*": ["controllers/*"],
       "@common/*": ["common/*"],
       "@databases": ["databases/*"],
-      "@dtos/*": ["dtos/*"],
       "@core/*": ["core/*"],
       "@interfaces/*": ["interfaces/*"],
       "@middlewares/*": ["middlewares/*"],
