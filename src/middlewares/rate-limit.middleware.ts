@@ -20,18 +20,20 @@ client.on('message', channel => {
 });
 
 export const authLimiter = (req: Request, res: Response, next: NextFunction) =>
-  rateLimit({
-    windowMs: 60 * 60 * 1000, // 1 hour
-    max: 60,
-    message: { message: req.t('errorMessages.tooManyRequests'), success: false },
-    standardHeaders: true,
-    legacyHeaders: false,
-    store: new RedisStore({
-      // @ts-expect-error - Known issue: the `call` function is not present in @types/ioredis
-      sendCommand: (...args: string[]) => client.call(...args),
-      prefix: 'rl'
-    })
-  })(req, res, next);
+  process.env.NODE_ENV === 'testing'
+    ? next()
+    : rateLimit({
+        windowMs: 60 * 60 * 1000, // 1 hour
+        max: 60,
+        message: { message: req.t('errorMessages.tooManyRequests'), success: false },
+        standardHeaders: true,
+        legacyHeaders: false,
+        store: new RedisStore({
+          // @ts-expect-error - Known issue: the `call` function is not present in @types/ioredis
+          sendCommand: (...args: string[]) => client.call(...args),
+          prefix: 'rl'
+        })
+      })(req, res, next);
 
 // app.enable("trust proxy"); // only if you're behind a reverse proxy (Heroku, Bluemix, AWS if you use an ELB, custom Nginx setup, etc)
 // app.set('trust proxy', 1); // trust first proxy
@@ -39,7 +41,7 @@ export const authLimiter = (req: Request, res: Response, next: NextFunction) =>
 export const appRequestSpeedLimiter = slowDown({
   delayAfter: 30,
   maxDelayMs: 20000,
-  delayMs: 500
+  delayMs: process.env.NODE_ENV === 'testing' ? 0 : 500
 });
 
 // // only apply to POST requests to /reset-password/
