@@ -6,7 +6,7 @@ let mongoServer: MongoMemoryServer;
 beforeEach(async () => {
   const db = await initDbConnection();
   dbConnection = db.connection.connection;
-  mongoServer = db.mongoServer;
+  // mongoServer = db.mongoServer;
 });
 
 afterEach(async () => {

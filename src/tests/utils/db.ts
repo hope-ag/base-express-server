@@ -1,10 +1,11 @@
 import { connect, set } from 'mongoose';
-import { MongoMemoryServer } from 'mongodb-memory-server';
+// import { MongoMemoryServer } from 'mongodb-memory-server';
 import { logger } from '@/common/core/logger';
 
 export async function initDbConnection() {
-  const mongoServer = await MongoMemoryServer.create();
-  const url = mongoServer.getUri();
+  // const mongoServer = await MongoMemoryServer.create();
+  // const url = mongoServer.getUri();
+  const url = process.env.MONGO_URL;
 
   const config = {
     url,
@@ -22,7 +23,7 @@ export async function initDbConnection() {
   logger.info('Connected to MongoDB on' + url);
 
   return {
-    mongoServer,
+    // mongoServer,
     connection
   };
 }
