@@ -10,9 +10,9 @@
     "build": "rimraf dist && tsc && tsc-alias",
     "build:watch": "rimraf dist && concurrently \"tsc --watch\" \"tsc-alias --watch\"",
     "test": "ts-node -r tsconfig-paths/register src/scripts/startTest.ts",
-    "test:app": "cross-env NODE_ENV=test jest src/tests/suite",
+    "test:app": "cross-env jest src/tests/suite",
     "lint": "eslint --ignore-path .gitignore --ext .ts src/",
-    "lint:fix": "npm run lint -- --fix",
+    "lint:fix": "npm run lint --fix",
     "generate:keyPair": "node dist/scripts/generateKeyPair.js",
     "deploy:prod": "npm run build && npm generate:keyPair && pm2 start ecosystem.config.js --only prod",
     "deploy:dev": "pm2 start ecosystem.config.js --only dev"
