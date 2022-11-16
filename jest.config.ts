@@ -7,13 +7,13 @@ const jestConfig: JestConfigWithTsJest = {
   preset: 'ts-jest',
   testMatch: ['**/tests/**/*.test.ts'],
   setupFilesAfterEnv: [
-    '<rootDir>/src/tests/mock/globalMock.ts',
+    // '<rootDir>/src/tests/mock/globalMock.ts',
     '<rootDir>/src/tests/utils/setUp.ts'
   ],
-  verbose: false,
+  verbose: true,
   forceExit: true,
   clearMocks: false,
-  detectOpenHandles: false,
+  detectOpenHandles: true,
   coverageDirectory: 'coverage',
   collectCoverage: true,
   modulePaths: [compilerOptions.baseUrl],
