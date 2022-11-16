@@ -28,5 +28,5 @@ jobs:
         cache: 'npm'
     - run: npm i -g pnpm
     - run: pnpm i --shamefully-hoist
-    - run: pnpm build --if-present
+    - run: pnpm build
     - run: pnpm test
