@@ -2,20 +2,6 @@ import request from 'supertest';
 import { usersRoute } from '@routes/users.route';
 import app from '@/app';
 import { mockDBUsers } from '../mock/data/users';
-import { initDbConnection } from '@@/src/server';
-
-let dbConnection: any;
-beforeAll(async () => {
-  const db = await initDbConnection();
-  dbConnection = db.connection;
-  // mongoServer = db.mongoServer;
-});
-
-afterAll(async () => {
-  await dbConnection.close();
-  app.app.removeAllListeners();
-  app.app = null;
-});
 
 describe('Testing Users', () => {
   const mockUsers = mockDBUsers(5);

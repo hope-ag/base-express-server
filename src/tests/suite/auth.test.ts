@@ -1,22 +1,6 @@
 import { authRoute } from '@/routes/auth.route';
 import request from 'supertest';
 import app from '@/app';
-import { initDbConnection } from '@/server';
-
-let dbConnection: any;
-
-beforeAll(async () => {
-  const db = await initDbConnection();
-  dbConnection = db.connection;
-  // mongoServer = db.mongoServer;
-});
-
-afterAll(async () => {
-  await dbConnection.close();
-  app.app.removeAllListeners();
-  app.app = null;
-});
-
 import { mockUserRegistrationData } from '../mock/data/users';
 import { getResponseData } from '../utils/getResponseData';
 const userData = mockUserRegistrationData();
