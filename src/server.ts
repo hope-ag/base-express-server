@@ -5,18 +5,19 @@ import { dbConnection } from '@common/config';
 import { logger } from '@common/core/logger';
 
 export function initDbConnection() {
-  if (process.env.NODE_ENV !== 'production') {
+  if (process.env.NODE_ENV === 'development') {
     set('debug', true);
   }
   return connect(dbConnection.url, dbConnection.options);
 }
 
-validateEnv();
-try {
-  initDbConnection().then(() => {
+export async function startApp() {
+  try {
+    validateEnv();
+    await initDbConnection();
     logger.info('Connected to MongoDB');
     app.listen();
-  });
-} catch (error) {
-  logger.error(error);
+  } catch (error) {
+    logger.error(error);
+  }
 }

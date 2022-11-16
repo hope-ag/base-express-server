@@ -1,21 +1,20 @@
 import { authRoute } from '@/routes/auth.route';
 import request from 'supertest';
 import app from '@/app';
-import { MongoMemoryServer } from 'mongodb-memory-server';
-import { initDbConnection } from '../utils/db';
+import { initDbConnection } from '@/server';
 
 let dbConnection: any;
-let mongoServer: MongoMemoryServer;
 
 beforeAll(async () => {
   const db = await initDbConnection();
-  dbConnection = db.connection.connection;
+  dbConnection = db.connection;
   // mongoServer = db.mongoServer;
 });
 
 afterAll(async () => {
   await dbConnection.close();
-  await mongoServer.stop();
+  app.app.removeAllListeners();
+  app.app = null;
 });
 
 import { mockUserRegistrationData } from '../mock/data/users';

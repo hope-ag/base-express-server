@@ -13,29 +13,26 @@ async function startTest() {
   await replSet.waitUntilRunning();
 
   const url = replSet.getUri();
-  console.log(url);
 
-  const child = spawn(`MONGO_URL=${url} pnpm`, ['test:dev'], {
+  console.log(`\x1b[42m \x1b[37m MONGODB \x1b[0m  server created at\x1b[36m ${url}\x1b[0m`);
+
+  const child = spawn(`DB_URI=${url} pnpm`, ['test:app'], {
     stdio: 'inherit',
     shell: true
-    // env: {
-    //   MONGO_URL: url
-    // }
   });
 
   child.on('close', () => {
-    console.log('Closed!!');
     child.kill();
   });
 
-  child.on('error', e => {
-    console.log(e);
-  });
-
-  child.on('exit', () => {
+  child.on('exit', async code => {
+    await mongoServer.stop();
     logger.info('Shutting down');
-    mongoServer.stop();
-    process.exit();
+    if (code) {
+      process.exit(code);
+    } else {
+      process.exit();
+    }
   });
 }
 

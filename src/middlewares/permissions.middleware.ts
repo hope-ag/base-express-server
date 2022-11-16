@@ -1,3 +1,4 @@
+import { logger } from '@/common/core/logger';
 import { User } from '@interfaces/users.interface';
 import { UserRole } from '@/interfaces/users.interface';
 import { CrudOperation, AppDomain } from '@/interfaces/misc.interface';
@@ -16,7 +17,7 @@ export function getPermissions(domain: AppDomain, operation: CrudOperation) {
         null
       );
       if (permissionsForRole && permissionsForRole.includes(operation)) {
-        console.log({ permissionsForRole, operation, domain, role });
+        logger.info({ permissionsForRole, operation, domain, role });
         next();
       } else {
         next(new Forbidden('errorMessages.forbidden'));
