@@ -32,6 +32,6 @@
       "@validators/*": ["src/validators/*"]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.json", ".env"],
+  "include": ["src/**/*.ts", "__tests__/**/*.ts", "src/**/*.json", ".env"],
   "exclude": ["node_modules", "src/http", "logs"]
 }
